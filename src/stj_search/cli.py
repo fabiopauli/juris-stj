@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import re
+
 import click
 from rich.console import Console
 from rich.panel import Panel
@@ -164,6 +166,42 @@ def _busca_stats(
         console.print(table)
 
 
+def _format_citation(row) -> str:
+    """Build a legal citation string from a DB row."""
+    parts = ["STJ."]
+
+    sigla = row["sigla_classe"] or ""
+    num_raw = row["numero_processo"] or ""
+    if sigla and num_raw:
+        try:
+            num_fmt = f"{int(num_raw):,}".replace(",", ".")
+        except ValueError:
+            num_fmt = num_raw
+        parts.append(f"{sigla} n. {num_fmt}")
+
+    relator = row["ministro_relator"] or ""
+    if relator:
+        parts.append(f"relator Ministro {relator.title()}")
+
+    orgao = row["orgao_julgador"] or ""
+    if orgao:
+        parts.append(orgao.title())
+
+    data_dec = row["data_decisao"] or ""
+    if len(data_dec) == 8:
+        parts.append(f"julgado em {int(data_dec[6:])}/{int(data_dec[4:6])}/{data_dec[:4]}")
+
+    data_pub = row["data_publicacao"] or ""
+    if data_pub:
+        m = re.match(r"^(\S+)\s+DATA:\s*(\d{2}/\d{2}/\d{4})", data_pub)
+        if m:
+            source = m.group(1)
+            d, mo, y = m.group(2).split("/")
+            parts.append(f"{source} de {int(d)}/{int(mo)}/{y}")
+
+    return "(" + ", ".join(parts) + ")."
+
+
 @cli.command()
 @click.argument("record_id")
 def ver(record_id: str) -> None:
@@ -179,32 +217,11 @@ def ver(record_id: str) -> None:
         console.print(f"[red]Record not found: {record_id}[/]")
         raise SystemExit(1)
 
-    title = f"{row['sigla_classe']} - Processo {row['numero_processo']}"
-    content = Text()
-
-    fields = [
-        ("ID", "id"),
-        ("Documento", "numero_documento"),
-        ("Processo", "numero_processo"),
-        ("Registro", "numero_registro"),
-        ("Classe", "descricao_classe"),
-        ("Classe Padronizada", "classe_padronizada"),
-        ("Orgao Julgador", "orgao_julgador"),
-        ("Relator", "ministro_relator"),
-        ("Tipo Decisao", "tipo_decisao"),
-        ("Data Decisao", "data_decisao"),
-        ("Data Publicacao", "data_publicacao"),
-    ]
-
-    for label, key in fields:
-        content.append(f"{label}: ", style="bold")
-        content.append(f"{row[key] or ''}\n")
-
-    content.append("\n")
-    console.print(Panel(content, title=title, border_style="blue"))
-
     if row["ementa"]:
         console.print(Panel(row["ementa"], title="Ementa", border_style="green"))
+
+    citation = _format_citation(row)
+    console.print(Panel(citation, title="Citação", border_style="dim"))
 
     if row["decisao"]:
         console.print(Panel(row["decisao"], title="Decisao", border_style="yellow"))
@@ -229,6 +246,30 @@ def ver(record_id: str) -> None:
 
     if row["tema"]:
         console.print(f"[bold]Tema:[/] {row['tema']}")
+
+    title = f"{row['sigla_classe']} - Processo {row['numero_processo']}"
+    content = Text()
+
+    fields = [
+        ("ID", "id"),
+        ("Documento", "numero_documento"),
+        ("Processo", "numero_processo"),
+        ("Registro", "numero_registro"),
+        ("Classe", "descricao_classe"),
+        ("Classe Padronizada", "classe_padronizada"),
+        ("Orgao Julgador", "orgao_julgador"),
+        ("Relator", "ministro_relator"),
+        ("Tipo Decisao", "tipo_decisao"),
+        ("Data Decisao", "data_decisao"),
+        ("Data Publicacao", "data_publicacao"),
+    ]
+
+    for label, key in fields:
+        content.append(f"{label}: ", style="bold")
+        content.append(f"{row[key] or ''}\n")
+
+    content.append("\n")
+    console.print(Panel(content, title=title, border_style="blue"))
 
 
 @cli.command()
