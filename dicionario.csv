@@ -1,0 +1,21 @@
+﻿Campo;Nome extenso;Descrição
+id;ID;Código identificador do acórdão na base de Jurisprudência
+numeroProcesso;Número do Processo no STJ;Número do processo autuado no STJ
+numeroRegistro;Número de Registro no STJ;Número de registro do processo autuado no STJ. 
+siglaClasse;Classe do processo - Sigla;Sigla da classe processual padronizada conforme autuação no STJ.
+descricaoClasse;Classe do processo - Por extenso;Nome por extenso da classe processual padronizada conforme autuação no STJ.
+nomeOrgaoJulgador;Órgão Julgador;Órgão colegiado responsável pelo julgamento do processo.
+ministroRelator;Ministro Relator;Ministro responsável pela relatoria do processo ou, quando vencido, do Ministro responsável pela relatoria do acórdão.
+ementa;Ementa;Resumo do conteúdo da decisão, elaborado pelo Ministro Relator ou, quando vencido, pelo Ministro Relator do Acórdão.
+tipoDeDecisao;Tipo de decisão;Decisão judicial proferida por magistrado singular (decisão monocrática) ou por colegiado de julgadores (acórdão). 
+dataDecisao;Data do julgamento;Data da sessão de julgamento em que o processo foi decidido.
+decisao;Acórdão;Resultado final do julgamento, com informações sobre a votação (unânime ou por maioria), bem como ausências de Ministros , sustentações orais e tese firmada em demanda repetitiva quando for o caso.
+jurisprudenciaCitada;Jurisprudência citada;Lista, organizada por temas, de decisões, Informativos e repositórios jurisprudenciais citados no acórdão como fundamentação adotada pelos Ministros em seus votos.  Há links que possibilitam acesso direto a tais decisões.
+notas;Notas;Índice de assuntos relevantes e de alterações de acórdãos que podem ser aplicados à consulta jurisprudencial.
+informacoesComplementares;Informações Complementares à Ementa;Informações extraídas do inteiro teor sobre teses decididas no acórdão e que não constam da ementa.
+termosAuxiliares;Termos Auxiliares à Pesquisa;Termos alternativos, baseados nas relações de sinonímia definidas no Tesauro Jurídico do STJ, que auxiliam no resgate das informações contidas no inteiro teor do acórdão.
+teseJuridica;Tese Jurídica;Tese firmada em sede de Precedentes Qualificados.
+tema;Tema;Número do Tema Repetitivo, conforme estabelecido pelo Núcleo de Gestão de Precedentes.
+referenciasLegislativas;Referência Legislativa;Lista de atos normativos que espelham as teses apreciadas e os fundamentos do acórdão.
+acordaosSimilares;Acórdãos Similares;Lista de acórdãos julgados pelo mesmo Ministro Relator, no mesmo órgão julgador e que possuem similaridade de teses apresentadas na ementa. Há links para a consulta processual e para o inteiro teor de tais acórdãos.
+dataPublicacao;Data de publicação/Fonte;Data em que a decisão foi publicada e a fonte de sua publicação.
